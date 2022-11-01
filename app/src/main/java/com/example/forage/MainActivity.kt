@@ -28,6 +28,8 @@ import com.example.forage.databinding.ActivityMainBinding
 /**
  * A Main activity that hosts all [Fragment]s for this application and hosts the nav controller.
  */
+// Created by Kaaya Rane (ksr2263)
+// Completed on Nov 1, 2022
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
