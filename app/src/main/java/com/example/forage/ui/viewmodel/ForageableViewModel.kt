@@ -27,19 +27,22 @@ import kotlinx.coroutines.launch
  * and [AddForageableFragment] and allow for interaction the the [ForageableDao]
  */
 
-// TODO: pass a ForageableDao value as a parameter to the view model constructor
 class ForageableViewModel(
-    // Pass dao here
-    private val forageableD: ForageableDao
+    // Passing an instance of ForageableDao as a parameter into the view model constructor
+    private val forageableDaoIns: ForageableDao
 ): ViewModel() {
 
-    // TODO: create a property to set to a list of all forageables from the DAO
-    val allForageables: LiveData<List<Forageable>> = forageableD.getForageables().asLiveData()
+    /* variable of type LiveData<List<Forageable>> that gets the entire list of forageables with the DAO,
+     * and converts it to LiveData.
+    */
+    val allForageables: LiveData<List<Forageable>> = forageableDaoIns.getForageables().asLiveData()
 
-    // TODO : create method that takes id: Long as a parameter and retrieve a Forageable from the
-    //  database by id via the DAO.
+
+    /* method that takes in an id of type Long and returns a LiveData<Forageable> from the database,
+     * using getForageable() method from the DAO, and converts Forageable into LiveData
+     */
     fun get(id: Long): LiveData<Forageable> {
-        return forageableD.getForageable(id).asLiveData()
+        return forageableDaoIns.getForageable(id).asLiveData()
     }
 
     fun addForageable(
@@ -55,9 +58,11 @@ class ForageableViewModel(
             notes = notes
         )
 
-    // TODO: launch a coroutine and call the DAO method to add a Forageable to the database within it
+    /* Launches a coroutine using the viewModelScope and calls the insert method from the DAO
+     * to insert the Forageable into the database.
+    */
     viewModelScope.launch {
-        forageableD.insert(forageable)
+        forageableDaoIns.insert(forageable)
     }
 
     }
@@ -77,15 +82,15 @@ class ForageableViewModel(
             notes = notes
         )
         viewModelScope.launch(Dispatchers.IO) {
-            // TODO: call the DAO method to update a forageable to the database here
-            forageableD.update(forageable)
+            // calls the DAO update method to update a forageable in the database
+            forageableDaoIns.update(forageable)
         }
     }
 
     fun deleteForageable(forageable: Forageable) {
         viewModelScope.launch(Dispatchers.IO) {
-            // TODO: call the DAO method to delete a forageable to the database here
-            forageableD.delete(forageable)
+            // calls the DAO delete method to delete a forageable in the database
+            forageableDaoIns.delete(forageable)
         }
     }
 
@@ -94,12 +99,11 @@ class ForageableViewModel(
     }
 }
 
-// TODO: create a view model factory that takes a ForageableDao as a property and
-//  creates a ForageableViewModel
-class ForageableViewModelFactory( private val forageableD: ForageableDao) : ViewModelProvider.Factory{
+// A view model factory that creates an instance of ForagaeableViewModel using a ForageableDao constructor parameter
+class ForageableViewModelFactory( private val forageableDaoIns: ForageableDao) : ViewModelProvider.Factory{
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if(modelClass.isAssignableFrom((ForageableViewModel::class.java))){
-            return ForageableViewModel(forageableD) as T
+            return ForageableViewModel(forageableDaoIns) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

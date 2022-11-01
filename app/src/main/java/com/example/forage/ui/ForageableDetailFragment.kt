@@ -40,9 +40,9 @@ class ForageableDetailFragment : Fragment() {
 
     private val navigationArgs: ForageableDetailFragmentArgs by navArgs()
 
-    // TODO: Refactor the creation of the view model to take an instance of
-    //  ForageableViewModelFactory. The factory should take an instance of the Database retrieved
-    //  from BaseApplication
+
+    // Refractoring view model to initialize the ForageableViewModelFactory.
+    // Takes in an instance of the Database from BaseApplication.
     private val viewModel: ForageableViewModel by activityViewModels {
         ForageableViewModelFactory(
             (activity?.application as BaseApplication).database.forageableDao()
@@ -65,8 +65,11 @@ class ForageableDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val id = navigationArgs.id
-        // TODO: Observe a forageable that is retrieved by id, set the forageable variable,
-        //  and call the bind forageable method
+
+        /*
+         * Calling get() on the view model, passing in an id, observing the live data and setting
+         * the result to a forageable property. Then, calls bindForageable() to update the UI.
+         */
         // Retrieve the item details using the itemId.
         // Attach an observer on the data (instead of polling for changes) and only update the
         // the UI when the data actually changes.

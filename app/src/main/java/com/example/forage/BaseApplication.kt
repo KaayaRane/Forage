@@ -26,7 +26,8 @@ import kotlinx.coroutines.SupervisorJob
  */
 class BaseApplication : Application() {
 
-    // TODO: provide a ForageDatabase value by lazy here
+    // coroutine scope
     val applicationScope = CoroutineScope(SupervisorJob())
+    // Database property that returns a ForageDatabase instance by lazy.
     val database by lazy {ForageDatabase.getDatabase(this, applicationScope)}
 }

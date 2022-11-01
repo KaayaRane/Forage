@@ -25,24 +25,27 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface ForageableDao {
 
-    // TODO: implement a method to retrieve all Forageables from the database
+    // method that returns a Flow<List<Forageable>> for every row in the database
     @Query("SELECT * FROM forageable_database ORDER BY name ASC")
     fun getForageables(): Flow<List<Forageable>>
 
-    // TODO: implement a method to retrieve a Forageable from the database by id
+    // method that takes in an id
+    // returns the Flow<Forageable> that is associated with the id
     @Query("SELECT * from forageable_database WHERE id = :id")
     fun getForageable(id: Long): Flow<Forageable>
 
-    // TODO: implement a method to insert a Forageable into the database
-    //  (use OnConflictStrategy.REPLACE)
+    // method that takes in Forageable
+    // inserts new Forageable into the database using OnConflictStrategy.REPLACE
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(forageable: Forageable)
 
-    // TODO: implement a method to update a Forageable that is already in the database
+    // method that takes in Forageable that exists in the database
+    // updates existing Forageable in the database
     @Update
     suspend fun update(forageable: Forageable)
 
-    // TODO: implement a method to delete a Forageable from the database.
+    // method that takes in Forageable as a parameter
+    // deletes Forageable from the database
     @Delete
     suspend fun delete(forageable: Forageable)
 }

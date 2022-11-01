@@ -25,11 +25,17 @@ import kotlinx.coroutines.CoroutineScope
  * Room database to persist data for the Forage app.
  * This database stores a [Forageable] entity
  */
-// TODO: create the database with all necessary annotations, methods, variables, etc.
+
+// database that exposes Forageable entities from DAO to Room
 @Database(entities = [Forageable::class], version = 1, exportSchema = false)
 public abstract class ForageDatabase : RoomDatabase(){
+    // returns ForageableDao
     abstract fun forageableDao(): ForageableDao
 
+    /*
+     * companion object that creates a private variable, INSTANCE, and a getDatabase() function that
+     * returns the ForageDatabase instance.
+     */
     companion object{
         @Volatile
         private var INSTANCE: ForageDatabase? = null
